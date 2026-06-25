@@ -1,6 +1,6 @@
 # Can LLMs Find Answers Without Vector Search?
 
-I built two RAG pipelines from scratch and tested them on 10 questions about the same research paper — to find out exactly where each one breaks.
+I built two RAG pipelines from scratch and tested them on 4 questions about the same research paper — to find out exactly where each one breaks.
 
 ---
 
@@ -12,7 +12,7 @@ RAG (Retrieval-Augmented Generation) is the technique of feeding an LLM relevant
 
 **PageIndex** — a newer approach. Instead of number-matching, an LLM actually reads a map of the document and *reasons* about which sections are relevant. No embeddings needed.
 
-I ran both on the [DeepSeek-R1 paper](https://arxiv.org/abs/2501.12948) using 10 questions designed to expose where each approach fails — not just easy lookups, but multi-hop reasoning, exact number retrieval, and synthesis questions that require reading multiple sections at once.
+I ran both on the [DeepSeek-R1 paper](https://arxiv.org/abs/2501.12948) using 4 questions designed to expose where each approach fails — not just easy lookups, but exact number retrieval, synthesis questions that require reading multiple sections at once, and narrative retrieval.
 
 ---
 
@@ -26,21 +26,16 @@ Most RAG comparisons I found online test on toy data (5 made-up documents) or us
 
 ---
 
-## The 10 Questions
+## The 4 Questions
 
 Each question is designed to stress a different weakness:
 
 | # | Type | What I'm testing |
 |---|---|---|
-| 1–2 | Simple factual | Sanity check — both should pass |
-| 3 | Exact number | Numbers often get split across chunk boundaries |
-| 4 | Two-section | Needs info from two different parts of the paper |
-| 5 | Full summary | Answer is spread across many sections |
-| 6 | List from a table | Tables are notoriously hard to chunk |
-| 7 | Specific story | One paragraph buried in the paper |
-| 8 | What didn't work | Failure modes aren't in the top results |
-| 9 | Trade-off | Why did they make this choice, not just what |
-| 10 | Cross-table comparison | Hardest — requires reading multiple benchmark tables |
+| 1 | Simple factual | Sanity check — both should pass |
+| 2 | Exact number | Numbers often get split across chunk boundaries |
+| 3 | Full synthesis | Answer is spread across many sections |
+| 4 | Specific story | One paragraph buried in the paper |
 
 ---
 
@@ -91,7 +86,7 @@ rag-shootout/
 │   ├── pdf_utils.py             ← Download + split the PDF
 │   ├── vector_pipeline.py       ← Vector RAG logic
 │   ├── pageindex_pipeline.py    ← PageIndex logic
-│   ├── questions.py             ← The 10 test questions
+│   ├── questions.py             ← The 4 test questions
 │   ├── scoring.py               ← Score tracking + summary stats
 │   └── visualization.py         ← All the charts
 │
