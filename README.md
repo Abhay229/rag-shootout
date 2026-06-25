@@ -31,14 +31,6 @@ The goal is not to crown a universal winner. It is to expose where each retrieva
 
 ---
 
-## 🎬 Demo
-
-> Demo recording placeholder. Add a walkthrough GIF at `docs/demo.gif` after recording the notebook or CLI flow.
-
-![RAG Shootout demo](docs/demo.gif)
-
----
-
 ## 🧱 Architecture
 
 ```mermaid
