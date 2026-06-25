@@ -2,7 +2,7 @@
 """
 run_benchmark.py — CLI runner for the RAG Shootout benchmark.
 
-Runs all 10 questions through both pipelines and saves raw results to a CSV.
+Runs all 4 questions through both pipelines and saves raw results to a CSV.
 Scoring is still manual — open the CSV alongside the source PDF to score.
 
 Usage:
@@ -44,7 +44,7 @@ def parse_args() -> argparse.Namespace:
         nargs="+",
         type=int,
         default=None,
-        help="Question IDs to run (default: all 10). E.g. --questions 1 3 5",
+        help="Question IDs to run (default: all 4). E.g. --questions 1 3 4",
     )
     parser.add_argument(
         "--skip-pageindex",
