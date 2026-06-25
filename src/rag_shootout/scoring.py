@@ -11,7 +11,7 @@ Rubric per dimension:
   - completeness:  1 = misses the point, 5 = covers everything asked
   - faithfulness:  1 = fabricated/hallucinated, 5 = fully grounded
 
-Max score per question: 15. Max total across 10 questions: 150.
+Max score per question: 15. Max total across 4 questions: 60.
 """
 
 from __future__ import annotations
@@ -73,7 +73,7 @@ class QuestionScore:
 # ─── Scaffold ─────────────────────────────────────────────────────────────────
 
 
-def make_empty_scorecard(n_questions: int = 10) -> list[QuestionScore]:
+def make_empty_scorecard(n_questions: int = 4) -> list[QuestionScore]:
     """
     Return a list of empty QuestionScore objects (one per question).
     Fill in the DimensionScore values after reading each answer.
