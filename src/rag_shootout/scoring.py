@@ -165,8 +165,10 @@ def scores_to_dataframe(
 
     if results:
         results_df = pd.DataFrame(results)
-        # Align on question_id (1-indexed)
-        results_df["question_id"] = results_df.index + 1
+        if "question_id" not in results_df.columns:
+            # Backward compatibility for older notebook result lists.
+            results_df["question_id"] = results_df.index + 1
+        results_df["question_id"] = results_df["question_id"].astype(int)
         df = df.merge(results_df, on="question_id", how="left")
 
     return df

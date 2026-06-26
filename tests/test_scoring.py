@@ -163,3 +163,16 @@ class TestScoresToDataframe:
         sc = make_empty_scorecard(n_questions=1)
         df = scores_to_dataframe(sc)
         assert df["winner"].iloc[0] == "not scored yet"
+
+    def test_results_merge_uses_question_id(self):
+        sc = make_empty_scorecard(n_questions=4)
+        results = [
+            {"question_id": 3, "pageindex_answer": "answer for q3"},
+            {"question_id": 1, "pageindex_answer": "answer for q1"},
+        ]
+
+        df = scores_to_dataframe(sc, results)
+
+        by_id = df.set_index("question_id")
+        assert by_id.loc[1, "pageindex_answer"] == "answer for q1"
+        assert by_id.loc[3, "pageindex_answer"] == "answer for q3"

@@ -37,7 +37,7 @@ OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 OPENROUTER_API_KEY: str = os.environ.get("OPENROUTER_API_KEY", "")
 
 # Any OpenRouter-supported model. Swap freely to compare cost/quality.
-MODEL = "qwen/qwen3.5-122b-a10b"
+MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
 LLM_TEMPERATURE = 0.3
 LLM_MAX_TOKENS = 1024
 
