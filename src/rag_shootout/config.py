@@ -28,8 +28,8 @@ RESULTS_DIR.mkdir(exist_ok=True)
 
 # ─── Document ─────────────────────────────────────────────────────────────────
 
-PDF_URL = "https://arxiv.org/pdf/2501.12948.pdf"
-PDF_PATH = ROOT_DIR / "sample_paper.pdf"
+PDF_URL = "local://src/rag_shootout/sample_paper.pdf"
+PDF_PATH = Path(__file__).resolve().parent / "sample_paper.pdf"
 
 # ─── LLM ──────────────────────────────────────────────────────────────────────
 

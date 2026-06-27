@@ -1,14 +1,8 @@
 """
-questions.py — The 4 benchmark questions for the DeepSeek-R1 shootout.
+questions.py - The 4 benchmark questions for the sample RAG shootout document.
 
-Questions are deliberately chosen to stress-test each retrieval paradigm:
-  • Easy factual (baseline sanity check)
-  • Numeric / table lookup (chunk-splitting risk)
-  • Full-paper synthesis (distributed information)
-  • Narrative / anecdote (localized, precise retrieval)
-
-To benchmark a different paper, replace this list and update the PDF_URL
-in config.py.
+Questions are deliberately chosen to expose where vector retrieval and
+structure-aware retrieval differ on a small synthetic document.
 """
 
 from __future__ import annotations
@@ -27,27 +21,27 @@ class Question:
 QUESTIONS: list[Question] = [
     Question(
         id=1,
-        text="What reinforcement learning algorithm was used to train DeepSeek-R1-Zero, and how does it differ from PPO?",
-        category="Factual",
-        why="Baseline sanity check — both approaches should pass. Tests single-section factual recall.",
+        text="How does vector search retrieve relevant information?",
+        category="Vector Match",
+        why="Favors Vector RAG because the answer is a direct semantic match to one compact paragraph.",
     ),
     Question(
         id=2,
-        text="What pass@1 score did DeepSeek-R1 achieve on the AIME 2024 benchmark, and how does that compare to OpenAI's o1-1217?",
-        category="Numeric",
-        why="Exact numbers often get split across chunk boundaries or buried deep in results tables.",
+        text="How does tree-based retrieval navigate a document?",
+        category="Structure Navigation",
+        why="Favors PageIndex because the answer depends on document hierarchy and branch selection.",
     ),
     Question(
         id=3,
-        text="Summarize the full multi-stage training pipeline used to produce the final DeepSeek-R1 model, start to finish.",
-        category="Synthesis",
-        why="The pipeline is described piecemeal across multiple sections — the hardest case for top-k retrieval.",
+        text="What are the limitations of vector similarity search?",
+        category="Limitations",
+        why="Pushes beyond lookup into reasoning about failure modes, where structure-aware retrieval should do better.",
     ),
     Question(
         id=4,
-        text="What was the 'aha moment' observed during DeepSeek-R1-Zero's training, and why did the authors highlight it?",
-        category="Narrative",
-        why="Localized in one place — tests whether precise retrieval can find a named, specific event.",
+        text="Which retrieval method better understands document structure?",
+        category="Comparison",
+        why="Forces a comparison answer grounded in the contrast between semantic similarity and document structure.",
     ),
 ]
 

@@ -3,7 +3,7 @@
 run_benchmark.py — CLI runner for the RAG Shootout benchmark.
 
 Runs all 4 questions through both pipelines and saves raw results to a CSV.
-Scoring is still manual — open the CSV alongside the source PDF to score.
+Scoring is still manual — open the CSV alongside the source document to score.
 
 Usage:
     python scripts/run_benchmark.py
@@ -226,7 +226,7 @@ def main() -> None:
     df.to_csv(args.output, index=False)
     print(f"\n[OK] Results saved → {args.output}")
     print(
-        "\nNext step: open the CSV alongside the source PDF and fill in the "
+        "\nNext step: open the CSV alongside the source document and fill in the "
         "accuracy/completeness/faithfulness columns (1–5) for each answer."
     )
 

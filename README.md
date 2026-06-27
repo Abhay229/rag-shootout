@@ -6,22 +6,22 @@
 ![PageIndex](https://img.shields.io/badge/PageIndex-Vectorless_Retrieval-7C3AED?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-> A practical benchmark for answering one question: **do we always need vector search for RAG, or can document-map retrieval do better on dense research papers?**
+> A practical benchmark for answering one question: **do we always need vector search for RAG, or can document-map retrieval do better when document structure matters?**
 
-RAG Shootout is a Python project that compares two retrieval strategies on the same real-world document, the [DeepSeek-R1 paper](https://arxiv.org/abs/2501.12948):
+RAG Shootout is a Python project that compares two retrieval strategies on the same synthetic sample document, [`src/rag_shootout/sample_paper.pdf`](src/rag_shootout/sample_paper.pdf):
 
 - **Vector RAG**: chunk the PDF, embed every chunk, retrieve the nearest chunks, and pass them to an LLM.
 - **PageIndex**: upload the full PDF, let PageIndex build a document map, and retrieve relevant sections through structure-aware reasoning.
 
-The goal is not to crown a universal winner. It is to expose where each retrieval method succeeds or fails across factual lookup, numeric retrieval, synthesis, and narrative questions. Answers are scored manually against the source paper to avoid LLM self-grading bias.
+The goal is not to crown a universal winner. It is to expose where each retrieval method succeeds or fails on direct semantic lookup, structure-aware navigation, retrieval limitations, and comparison questions. Answers are scored manually against the source document to avoid LLM self-grading bias.
 
 ---
 
 ## ✨ Features
 
 - 🔍 **Head-to-head RAG benchmark** comparing Vector RAG and PageIndex on identical questions.
-- 📄 **Real research-paper workload** using the DeepSeek-R1 arXiv PDF instead of toy documents.
-- 🧠 **Four stress-test questions** covering factual recall, numeric lookup, full synthesis, and narrative retrieval.
+- 📄 **Synthetic benchmark document** with short sections on RAG, vector search, and hierarchical retrieval.
+- 🧠 **Four stress-test questions** designed to separate direct embedding matches from structure-aware reasoning.
 - 📊 **Manual scoring framework** for accuracy, completeness, and faithfulness.
 - ⏱️ **Latency tracking** for each pipeline and question.
 - 📈 **Visualization utilities** for score, win-count, dimension-average, category, and latency charts.
@@ -35,7 +35,7 @@ The goal is not to crown a universal winner. It is to expose where each retrieva
 
 ```mermaid
 flowchart TD
-    A[DeepSeek-R1 PDF] --> B[PDF download + page extraction]
+    A[Sample PDF] --> B[PDF load + page extraction]
     B --> C[Vector RAG pipeline]
     B --> D[PageIndex pipeline]
 
@@ -73,20 +73,20 @@ flowchart TD
 
 ## 🧪 Benchmark Design
 
-The current benchmark uses 4 questions from the DeepSeek-R1 paper:
+The current benchmark uses 4 questions against the sample document:
 
 | # | Type | What It Tests |
 |---|---|---|
-| 1 | Simple factual | Whether the pipeline can retrieve a direct algorithmic fact. |
-| 2 | Exact number | Whether it can find precise benchmark values without losing table context. |
-| 3 | Full synthesis | Whether it can combine information spread across multiple sections. |
-| 4 | Narrative retrieval | Whether it can find and explain a specific named event in the paper. |
+| 1 | Vector match | Whether the pipeline can retrieve a direct embedding-friendly explanation of vector search. |
+| 2 | Structure navigation | Whether it can explain how tree-based retrieval moves through a document hierarchy. |
+| 3 | Limitations | Whether it can reason about the weaknesses of vector similarity search. |
+| 4 | Comparison | Whether it can compare both retrieval styles with an emphasis on document structure. |
 
 ### Benchmark Metrics
 
 | Metric | What It Measures | How This Project Uses It |
 |---|---|---|
-| Accuracy | Whether the answer is factually correct against the source paper. | Manual 1-5 score in `DimensionScore.accuracy`. |
+| Accuracy | Whether the answer is factually correct against the source document. | Manual 1-5 score in `DimensionScore.accuracy`. |
 | Latency | How long each pipeline takes to answer. | Captured as `vector_time` and `pageindex_time` in benchmark results. |
 | Faithfulness | Whether claims are grounded in the retrieved/source content. | Manual 1-5 score in `DimensionScore.faithfulness`. |
 | Context Precision | Whether retrieved context is mostly relevant rather than noisy. | Reviewed from retrieved pages/sections and answer grounding during manual evaluation. |
@@ -102,7 +102,7 @@ The current benchmark uses 4 questions from the DeepSeek-R1 paper:
 | Setup | Local chunking plus embedding model. | Upload document to PageIndex and reuse the document ID. |
 | Strengths | Fast, transparent, cheap to run locally after indexing. | Better suited to long documents, section reasoning, and cross-page context. |
 | Weaknesses | Can miss answers split across chunks or buried outside top-k. | Depends on PageIndex availability, credits, API latency, and document upload. |
-| Best for | High-throughput retrieval, simple lookups, controllable local experiments. | Dense reports, papers, manuals, and questions needing document structure. |
+| Best for | High-throughput retrieval, simple lookups, controllable local experiments. | Long documents, manuals, and questions needing document structure. |
 | Main trade-off | Simplicity and speed vs. context fragmentation. | Better document awareness vs. external service dependency. |
 
 ---
@@ -237,7 +237,7 @@ jupyter lab notebooks/rag_shootout.ipynb
 
 Then run the notebook cells in order:
 
-1. Download and parse the DeepSeek-R1 PDF.
+1. Load and parse the sample PDF.
 2. Build the Vector RAG index.
 3. Upload the PDF to PageIndex.
 4. Run both pipelines on the 4 benchmark questions.
@@ -296,7 +296,7 @@ python scripts/run_benchmark.py --pageindex-doc-id YOUR_DOC_ID
 
 To benchmark another PDF:
 
-1. Change `PDF_URL` in `src/rag_shootout/config.py`.
+1. Change `PDF_URL` and `PDF_PATH` in `src/rag_shootout/config.py`.
 2. Replace the question list in `src/rag_shootout/questions.py`.
 3. Re-run the notebook or CLI.
 4. Score the outputs manually against the new source document.
